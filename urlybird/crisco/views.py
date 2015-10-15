@@ -1,6 +1,8 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login
+from django.views.generic import ListView
+from .models import Bookmark
 
 # Create your views here.
 
@@ -22,3 +24,22 @@ def register_user(request):
             redirect('home', request.user.pk)
         else:
             redirect('all')
+
+class all_bookmarks(ListView):
+    '''Generic ListView that will show the 20 most recent bookmarks.
+    Incorperates pagination for viewing older bookmarks.'''
+    paginate_by = 20
+    context_object_name = 'bookmarks'
+    template_name = 'crisco/newbookmarks.html'
+
+    def get_queryset(self):
+        return Bookmark.objects.all().order_by('-timestamp')
+
+class user_page(ListView):
+    paginate_by = 20
+    context_object_name = 'bookmarks'
+    template_name = 'crisco/'
+    
+    def get_queryset(self):
+        self.user = get_object_or_404(User, pk=self.kwargs['pk'])
+        return self.user.bookmark_set.all()
