@@ -1,0 +1,7 @@
+Django
+django-debug-toolbar
+psycopg2
+django-bootstrap3
+fake-factory
+django-extensions
+werkzeug
