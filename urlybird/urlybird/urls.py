@@ -24,4 +24,5 @@ urlpatterns = [
     url(r'^accounts/logout/$', 'django.contrib.auth.views.logout', name='logout'),
     url(r'^recent', AllBookmarks.as_view() , name='recent'),
     url(r'^user/(?P<pk>\w+)', UserPage.as_view(), name='user_page'),
+    url(r'^register', 'crisco.views.register_user', name='register_user'),
 ]
