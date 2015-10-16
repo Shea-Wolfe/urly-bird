@@ -4,6 +4,8 @@ from django.contrib.auth import authenticate, login
 from django.views.generic import ListView
 from .models import Bookmark
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+from django.contrib.auth.models import User
 
 # Create your views here.
 
@@ -21,7 +23,7 @@ def register_user(request):
     return render(request, 'crisco/register.html', {'form':form})
 
 def start(request):
-    if user.is_authenticated():
+    if request.user.is_authenticated():
         redirect('home_page', request.user.username)
     else:
         redirect('recent')
@@ -66,5 +68,5 @@ def delete_bookmark(request, bookmark_id):
         messages.add_message(request, messages.SUCCESS, "Bookmark deleted!")
         return redirect('home_page',rater_id=request.user.username)
     else:
-        messages.add_message(request, ERROR, "You can't delete what is not yours!")
+        messages.add_message(request, messages.ERROR, "You can't delete what is not yours!")
         return redirect('recent')
