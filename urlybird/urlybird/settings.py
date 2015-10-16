@@ -110,4 +110,4 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-LOGIN_REDIRECT_URL = 'recent' 
+LOGIN_REDIRECT_URL = 'recent'
