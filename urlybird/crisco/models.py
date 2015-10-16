@@ -7,7 +7,7 @@ class Bookmark(models.Model):
     title = models.CharField(max_length=255)
     comment = models.CharField(max_length=255, null=True, blank=True)
     longurl = models.URLField()
-    shorturl = models.CharField()
+    shorturl = models.CharField(max_length=10)
     modified = models.DateTimeField()
     user = models.ForeignKey(User)
 
