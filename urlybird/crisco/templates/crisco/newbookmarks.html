@@ -9,8 +9,8 @@
     <th>Description</th>
     <th>Date Made</th>
   </tr>
-  <td>
-    {% for bookmark in bookmarks %}</td>
+  <tb>
+    {% for bookmark in bookmarks %}
     <tr>
       <td><a href="{% url 'user_page' bookmark.user.username%}">{{bookmark.user.username}}</a></td>
       <td>{{bookmark.title}}</td>
@@ -21,6 +21,7 @@
         {% endif %}
         <td>{{bookmark.modified}}</td>
     </tr>
-  </table>
     {% endfor %}
+  </tb>
+</table>
     {% endblock %}
