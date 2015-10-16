@@ -16,8 +16,8 @@
       <td>{{bookmark.title}}</td>
         <td>{{bookmark.shorturl}}</td>
         <td><a href="{{bookmark.longurl}}">{{bookmark.longurl}}</a></td>
-        {% if bookmark.description %}
-        <td>{{bookmark.description}}</td>
+        {% if bookmark.comment %}
+        <td>{{ bookmark.comment }}</td>
         {% endif %}
         <td>{{bookmark.modified}}</td>
     </tr>
