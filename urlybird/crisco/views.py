@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login
-from django.views.generic import ListView
+from django.views.generic import ListView,UpdateView
 from .models import Bookmark
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
@@ -70,3 +70,17 @@ def delete_bookmark(request, bookmark_id):
     else:
         messages.add_message(request, messages.ERROR, "You can't delete what is not yours!")
         return redirect('recent')
+
+@login_required
+def edit_bookmark(request, bookmark_id):
+    if Bookmark.objects.get(pk=bookmark_id).user == request.user:
+        redirect('edit_form', pk=bookmark_id)
+    else:
+        messages.add_message(request, messages.WARNING, "You can't edit what is not yours!")
+        return redirect('recent')
+
+class EditBookmark(UpdateView):
+    model = Bookmark
+    template_name_suffix = '_update_form'
+    field = ['title','comment']
+    success_url = "{% url 'home_page' request.user.username %}"
