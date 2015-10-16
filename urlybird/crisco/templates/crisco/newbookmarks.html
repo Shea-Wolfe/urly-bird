@@ -8,7 +8,7 @@
 <tb>
   {% for bookmark in bookmarks %}
     <tr>
-      <td><a href="{{bookmark.user.username}}">{{bookmark.user.username}}</a></td><td>{{bookmark.title}}<td>{{bookmark.shorturl}}</td><td><a href="{{bookmark.longurl}}">{{bookmark.longurl}}</a></td>
+      <td><a href="{% url 'user_page' bookmark.user.username%}">{{bookmark.user.username}}</a></td><td>{{bookmark.title}}<td>{{bookmark.shorturl}}</td><td><a href="{{bookmark.longurl}}">{{bookmark.longurl}}</a></td>
       {% if bookmark.description %}<td>{{bookmark.description}}</td>{% endif %}
       <td>{{bookmark.modified}}</td>
     </tr>

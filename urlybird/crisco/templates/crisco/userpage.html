@@ -3,14 +3,14 @@
 <h1>{{view.user.username}}'s homepage</h1>
 <table class="table">
   <tr>
-    <th>Title</th><th>Shortened Bookmark</th><th>Bookmark</th><th>Description</th><th>Date Made</th>
+    <th>Title</th><th>Shortened Bookmark</th><th>Bookmark</th><th>Description</th>{% block headers %}{% endblock %}<th>Date Made</th>
   </tr>
   <tb>
     {% for bookmark in bookmarks %}
       <tr>
         <td>{{bookmark.title}}<td>{{bookmark.shorturl}}</td><td><a href="{{bookmark.longurl}}">{{bookmark.longurl}}</a></td>
         {% if bookmark.description %}<td>{{bookmark.description}}</td>{% endif %}
-        <td>{{bookmark.modified}}</td>
+        {% block rows %}{% endblock %}<td>{{bookmark.modified}}</td> 
       </tr>
     {% endfor %}
   </tb>
