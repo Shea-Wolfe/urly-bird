@@ -25,7 +25,7 @@ def register_user(request):
         else:
             redirect('all')
 
-class all_bookmarks(ListView):
+class AllBookmarks(ListView):
     '''Generic ListView that will show the 20 most recent bookmarks.
     Incorperates pagination for viewing older bookmarks.'''
     paginate_by = 20
@@ -33,13 +33,27 @@ class all_bookmarks(ListView):
     template_name = 'crisco/newbookmarks.html'
 
     def get_queryset(self):
-        return Bookmark.objects.all().order_by('-timestamp')
+        preload = Bookmark.objects.all().select_related('user')
+        return preload.order_by('-modified')
 
-class user_page(ListView):
+class UserPage(ListView):
+    '''Generic ListView that will show the 20 most recent bookmarks a user posted.'''
     paginate_by = 20
     context_object_name = 'bookmarks'
-    template_name = 'crisco/'
-    
+    template_name = 'crisco/userpage.html'
+
     def get_queryset(self):
         self.user = get_object_or_404(User, pk=self.kwargs['pk'])
-        return self.user.bookmark_set.all()
+        self.user.bookmark_set.all().order_by('-modified')
+
+
+class HomePage(ListView):
+    '''Generic ListView that will show the 20 most recent bookmarks a user posted.
+       Seperated from UserPage to allow for edit/delete with minimal processing.'''
+    paginate_by = 20
+    context_object_name = 'bookmarks'
+    template_name = 'crisco/homepage.html'
+
+    def get_queryset(self):
+        self.user = get_object_or_404(User, pk=self.kwargs['pk'])
+        self.user.bookmark_set.all().order_by('-modified')
