@@ -14,9 +14,9 @@ def register_user(request):
         form = UserCreationForm(request.POST)
         if form.is_valid():
             user = form.save()
-            user = authenticate(username=user.username, password=user.password)
+            user = authenticate(username=user.username, password=request.POST['password1'])
             login(request, user)
-            return redirect('home_page', request.user.pk)
+            return redirect('home_page', request.user.username)
 
     else:
         form = UserCreationForm()
