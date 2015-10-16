@@ -18,6 +18,8 @@
         <td><a href="{{bookmark.longurl}}">{{bookmark.longurl}}</a></td>
         {% if bookmark.comment %}
         <td>{{ bookmark.comment }}</td>
+        {% else %}
+        <td></td>
         {% endif %}
         <td>{{bookmark.modified}}</td>
     </tr>
