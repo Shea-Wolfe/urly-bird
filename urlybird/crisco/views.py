@@ -17,7 +17,7 @@ def register_user(request):
 
     else:
         form = UserCreationForm()
-    return render(request, 'users/register.html', {'form':form})
+    return render(request, 'crisco/register.html', {'form':form})
 
     def start(request):
         if user.is_authenticated():
