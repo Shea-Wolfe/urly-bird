@@ -17,7 +17,7 @@ class Bookmark(models.Model):
 
 class Click(models.Model):
     timestamp = models.DateTimeField()
-    clicker = models.ForeignKey(User)
+    clicker = models.ForeignKey(User, null=True)
     bookmark = models.ForeignKey(Bookmark)
 
     def __str__(self):
