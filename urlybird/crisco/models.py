@@ -14,6 +14,14 @@ class Bookmark(models.Model):
     def __str__(self):
         return "{}".format(self.title)
 
+    # def generate_short(self):
+    #     '''Generates a shorturl for the bookmark.
+    #     also validates to make sure it doesn't already exist'''
+    #     short = generator
+    #     if Bookmark.objects.filter(shorturl=short).count() == 1:
+    #         self.generate_short()
+    #     else:
+    #         self.shorturl = short
 
 class Click(models.Model):
     timestamp = models.DateTimeField()
