@@ -1,8 +1,13 @@
 {% extends "crisco/userpage.html" %}
 {% block headers %}
-  <th>Edit</th><th>Delete</th>
+  {% if request.user == view.user %}
+    <th>Edit</th>
+    <th>Delete</th>
+  {% endif %}
 {% endblock %}
 {% block rows %}
-  <td><a href="{% url 'edit_bookmark' bookmark.pk %}">Edit</a></td>
-  <td><a href="{% url 'delete_bookmark' bookmark.pk %}">Delete</a></td>
+  {% if request.user == view.user %}
+    <td><a href="{% url 'edit_bookmark' bookmark.pk %}">Edit</a></td>
+    <td><a href="{% url 'delete_bookmark' bookmark.pk %}">Delete</a></td>
+  {% endif %}
 {% endblock %}
