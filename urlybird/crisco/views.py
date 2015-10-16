@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login
 from django.views.generic import ListView
-from .models import Bookmark]
+from .models import Bookmark
 from django.contrib.auth.decorators import login_required
 
 # Create your views here.
@@ -67,3 +67,4 @@ def delete_bookmark(request, bookmark_id):
         return redirect('home_page',rater_id=request.user.username)
     else:
         messages.add_message(request, ERROR, "You can't delete what is not yours!")
+        return redirect('recent')
