@@ -25,9 +25,9 @@ def register_user(request):
 
 def start(request):
     if request.user.is_authenticated():
-        redirect('home_page', request.user.username)
+        return redirect('home_page', request.user.username)
     else:
-        redirect('recent')
+        return redirect('recent')
 
 
 class AllBookmarks(ListView):
@@ -70,7 +70,7 @@ def delete_bookmark(request, bookmark_id):
     if Bookmark.objects.get(pk=bookmark_id).user == request.user:
         Bookmark.objects.get(pk=bookmark_id).delete()
         messages.add_message(request, messages.SUCCESS, "Bookmark deleted!")
-        return redirect('home_page', rater_id=request.user.username)
+        return redirect('home_page', pk=request.user.username)
     else:
         messages.add_message(
             request, messages.ERROR, "You can't delete what is not yours!")

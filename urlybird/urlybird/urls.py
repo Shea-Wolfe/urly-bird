@@ -28,5 +28,6 @@ urlpatterns = [
     url(r'^home/(?P<pk>\w+)', HomePage.as_view(), name='home_page'),
     url(r'^delete/(?P<bookmark_id>\d+)', 'crisco.views.delete_bookmark', name='delete_bookmark'),
     url(r'^update/(?P<bookmark_id>\d+)', 'crisco.views.edit_bookmark', name='edit_bookmark'),
-    url(r'^update/form/(?P<pk>\d+)', EditBookmark.as_view(), name='edit_form')
+    url(r'^update/form/(?P<pk>\d+)', EditBookmark.as_view(), name='edit_form'),
+    url(r'^$', 'crisco.views.start'),
 ]
