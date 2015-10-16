@@ -1,0 +1,15 @@
+{% extends "urlybird/base.html" %}
+{% block content %}
+<h1>Most Recent Bookmarks</h1>
+<table class="table">
+  <tr>
+    <th>User</th><th>Title</th><th>Shortened Bookmark</th><th>Bookmark</th><th>Description</th><th>Date Made</th>
+  </tr>
+<tb>
+  {% for bookmark in bookmarks %}
+    <tr>
+      <td><a href="{% url 'user_page' bookmark.user.username%}">{{bookmark.user.username}}</a></td><td>{{bookmark.title}}<td>{{bookmark.shorturl}}</td><td><a href="{{bookmark.longurl}}">{{bookmark.longurl}}</a></td>
+      {% if bookmark.description %}<td>{{bookmark.description}}</td>{% endif %}
+      <td>{{bookmark.modified}}</td>
+    </tr>
+  {% endfor
