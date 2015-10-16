@@ -20,8 +20,8 @@ from crisco.views import AllBookmarks,UserPage,HomePage,EditBookmark
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^accounts/login/$', 'django.contrib.auth.views.login',
-       {'template_name': 'admin/login.html'}, name='login'),
-    url(r'^accounts/logout/$', 'django.contrib.auth.views.logout', name='logout'),
+       {'template_name': 'urlybird/login.html'}, name='login'),
+    url(r'^accounts/logout/$', 'django.contrib.auth.views.logout_then_login', name='logout'),
     url(r'^recent', AllBookmarks.as_view() , name='recent'),
     url(r'^user/(?P<pk>\w+)', UserPage.as_view(), name='user_page'),
     url(r'^register', 'crisco.views.register_user', name='register_user'),
