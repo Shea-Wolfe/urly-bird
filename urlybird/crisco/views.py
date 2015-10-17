@@ -6,6 +6,7 @@ from .models import Bookmark
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib import messages
+from .forms import BookmarkForm
 # Create your views here.
 
 
@@ -14,7 +15,8 @@ def register_user(request):
         form = UserCreationForm(request.POST)
         if form.is_valid():
             user = form.save()
-            user = authenticate(username=user.username, password=request.POST['password1'])
+            user = authenticate(username=user.username,
+                                password=request.POST['password1'])
             login(request, user)
             return redirect('home_page', request.user.username)
 
@@ -63,6 +65,24 @@ class HomePage(ListView):
     def get_queryset(self):
         self.user = get_object_or_404(User, username=self.kwargs['pk'])
         return self.user.bookmark_set.all().order_by('-modified')
+
+
+@login_required
+def add_bookmark(request):
+    if request.method == 'POST':
+        form = BookmarkForm(request.POST)
+        if form.is_valid():
+            bookmark = form.save()
+            title = bookmark.title
+            longurl = bookmark.longurl
+            comment = bookmark.comment
+
+            bookmark.save()
+            return redirect('userpage')
+    else:
+        form = BookmarkForm()
+    return render(request, 'crisco/userpage.html',
+                  {'form': form})
 
 
 @login_required
