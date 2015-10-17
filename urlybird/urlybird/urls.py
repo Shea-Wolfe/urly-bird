@@ -26,6 +26,7 @@ urlpatterns = [
     url(r'^user/(?P<pk>\w+)', UserPage.as_view(), name='user_page'),
     url(r'^register', 'crisco.views.register_user', name='register_user'),
     url(r'^home/(?P<pk>\w+)', HomePage.as_view(), name='home_page'),
+    url(r'^add/(?P<bookmark_id>\d+)', 'crisco.views.add_bookmark', name='add_bookmark'),
     url(r'^delete/(?P<bookmark_id>\d+)', 'crisco.views.delete_bookmark', name='delete_bookmark'),
     url(r'^update/(?P<bookmark_id>\d+)', 'crisco.views.edit_bookmark', name='edit_bookmark'),
     url(r'^update/form/(?P<pk>\d+)', EditBookmark.as_view(), name='edit_form'),
