@@ -1,6 +1,6 @@
 from django.core.management.base import BaseCommand
 from django.contrib.auth.models import User
-from crisco.models import Bookmark
+from crisco.models import Bookmark, Click
 
 
 def generate_users():
@@ -28,6 +28,14 @@ def generate_bookmarks():
         bookmark.save()
         count += 1
 
+def generate_clicks():
+    from faker import Faker
+    import random
+    fake = Faker()
+    for _ in range(1000):
+        click = Click(timestamp=fake.date_time_this_year(),clicker=random.choice([random.choice(User.objects.all()),None]),bookmark=random.choice(Bookmark.objects.all()))
+        click.save()
+
 class Command(BaseCommand):
     def handle(self, *args, **options):
-        generate_users()
+        generate_clicks()
