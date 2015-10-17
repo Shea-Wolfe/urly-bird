@@ -1,0 +1,8 @@
+{%extends 'crisco/base.html' %}
+{% block content %}
+<form method="POST" action="{% url 'add_bookmark' %}">
+  {% csrf_token %}
+  {{form.as_p}}
+  <input type='submit' value='submit new bookmark' class="btn btn-default">
+</form>
+{% endblock %}
