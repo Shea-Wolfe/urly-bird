@@ -33,7 +33,7 @@ def generate_clicks():
     import random
     fake = Faker()
     for _ in range(1000):
-        click = Click(timestamp=fake.date_time_this_year(),clicker=random.choice([random.choice(User.objects.all()),None]),bookmark=random.choice(Bookmark.objects.all()))
+        click = Click(timestamp=fake.date_time_this_year(),clicker=random.choice([random.choice(User.objects.all()),random.choice(User.objects.all()),None]),bookmark=random.choice(Bookmark.objects.all()))
         click.save()
 
 class Command(BaseCommand):
