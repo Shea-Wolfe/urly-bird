@@ -1,0 +1,24 @@
+{% extends "urlybird/base.html" %}
+{% load bootstrap3 %}
+{% block content %}
+<h1>{{view.bookmark.title}}</h1>
+<table class="table">
+  <tr>
+    <th>User</th>
+    <th>Timestamp</th>
+  </tr>
+  <tb>
+    {% for click in clicks %}
+    <tr>
+        {% if click.clicker %}
+        <td>{{click.clicker}}</td>
+        {% else %}
+        <td>No User</td>
+        {% endif %}
+        <td>{{click.timestamp}}</td>
+    </tr>
+    {% endfor %}
+  </tb>
+</table>
+{% bootstrap_pagination page_obj %}
+{% endblock %}

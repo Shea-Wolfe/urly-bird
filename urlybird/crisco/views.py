@@ -124,3 +124,13 @@ def new_click(request, short_url):
         click = Click(bookmark=bookmark, clicker=user, timestamp=datetime.now())
     click.save()
     return redirect(bookmark.longurl)
+
+class BookmarkInfo(ListView):
+    paginate_by = 20
+    context_object_name = 'clicks'
+    template_name = 'crisco/bookmarkinfo.html'
+
+    def get_queryset(self):
+        self.bookmark = get_object_or_404(Bookmark, shorturl=self.kwargs['pk'])
+        self.clicks = Click.objects.filter(bookmark=self.bookmark)
+        return self.clicks.order_by('-timestamp')
