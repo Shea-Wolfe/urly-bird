@@ -22,12 +22,14 @@
     {%if user.is_authenticated %}
     <li><a href="{% url 'home_page' user.username %}" class="btn btn-info">Home</a></li>
     <li><a href="{% url 'recent' %}" class="btn btn-warning">Recent</a></li>
-    <li>Signed in as {{user.username}}</li>
-    <li><a href="{% url 'logout' %}">Logout</a></li>
+    <li><a href="{% url 'add_bookmark' %}" class="btn btn-success">New Bookmark</a></li>
+    <li><a href="{% url 'logout' %}" class="btn btn-danger">Logout</a></li>
+    <li><span class="btn btn-default">Signed in as {{user.username}} </span></li>
+
     {% else %}
       <li><a href="{% url 'login' %}">Login</a></li>
       <li><a href="{% url 'register_user' %}">Register</a></li>
-      <li><a href="{% url 'recent' %}">Most viewed</a></li>
+      <li><a href="{% url 'recent' %}">Recent</a></li>
   {% endif %}
     </ul>
   </nav>
