@@ -1,20 +1,22 @@
 {% load staticfiles %}
-{# {% load bootstrap3 %}#}
+{% load bootstrap3 %}
+{% load bootstrap_themes %}
 
 <!DOCTYPE html>
 <html>
 <head lang="en">
   <meta charset="UTF-8">
   <title>Crisco URL Shortener</title>
-  {# {% bootstrap_css %} {% bootstrap_javascript jquery=True %}#}
-  {# <link rel="stylesheet" type="text/css" href="{% static " style.css " %}">#}
-  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+  {% bootstrap_css %}
+ {% bootstrap_javascript %}
+ {% bootstrap_messages %}
+ {% bootstrap_styles theme='superhero' type='css'%}
 </head>
 <body>
   <ul class="nav nav-pills">
     {%if user.is_authenticated %}
-    <li><a href="{% url 'home_page' user.username %}">Home</a></li>
-    <li><a href="{% url 'recent' %}">Recent</a></li>
+    <li><a href="{% url 'home_page' user.username %}" class="btn btn-info">Home</a></li>
+    <li><a href="{% url 'recent' %}" class="btn btn-warning">Recent</a></li>
     <li>Signed in as {{user.username}}</li>
     <li><a href="{% url 'logout' %}">Logout</a></li>
     {% else %}
