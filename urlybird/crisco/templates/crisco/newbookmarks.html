@@ -1,4 +1,6 @@
-{% extends "urlybird/base.html" %} {% block content %}
+{% extends "urlybird/base.html" %}
+{% load bootstrap3 %}
+{% block content %}
 <h1>Most Recent Bookmarks</h1>
 <table class="table">
   <tr>
@@ -26,4 +28,5 @@
     {% endfor %}
   </tb>
 </table>
+{% bootstrap_pagination page_obj %}
     {% endblock %}
