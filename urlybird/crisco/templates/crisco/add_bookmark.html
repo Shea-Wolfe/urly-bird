@@ -1,8 +1,17 @@
 {%extends 'urlybird/base.html' %}
+{% load bootstrap3 %}
 {% block content %}
-<form method="POST" action="{% url 'add_bookmark' %}">
+<div class="well bs-component">
+<form method="POST" action="{% url 'add_bookmark' %}" class="form-horizontal">
+<legend>Add A Bookmark</legend>
   {% csrf_token %}
   {{form.as_p}}
-  <input type='submit' value='submit new bookmark' class="btn btn-default">
+  <div class="form-group">
+        <div class="col-lg-10 col-lg-offset-2">
+  <button type="reset" class="btn btn-default">Cancel</button>
+  <button type="submit" class="btn btn-primary" value='submit new bookmark'>Submit</button>
+</div>
+    </div>
+</div>
 </form>
 {% endblock %}
