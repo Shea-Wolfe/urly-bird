@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.conf.urls import include, url
 from django.contrib import admin
-from crisco.views import AllBookmarks,UserPage,HomePage,EditBookmark
+from crisco.views import AllBookmarks,UserPage,HomePage,EditBookmark,BookmarkInfo
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
@@ -31,5 +31,6 @@ urlpatterns = [
     url(r'^update/(?P<bookmark_id>\d+)', 'crisco.views.edit_bookmark', name='edit_bookmark'),
     url(r'^update/form/(?P<pk>\d+)', EditBookmark.as_view(), name='edit_form'),
     url(r'^click/(?P<short_url>\w+)', 'crisco.views.new_click', name='clickthrough'),
+    url(r'^info/(?P<pk>\w+)', BookmarkInfo.as_view(), name='bookmark_info'),
     url(r'^$', 'crisco.views.start'),
 ]

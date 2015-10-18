@@ -15,7 +15,7 @@
     {% for bookmark in bookmarks %}
     <tr>
       <td><a href="{% url 'user_page' bookmark.user.username%}">{{bookmark.user.username}}</a></td>
-      <td>{{bookmark.title}}</td>
+      <td><a href="{% url 'bookmark_info' bookmark.shorturl %}">{{bookmark.title}}</a></td>
         <td><a href="{% url 'clickthrough' bookmark.shorturl %}">{{bookmark.shorturl}}</a></td>
         <td><a href="http://{{bookmark.longurl}}">{{bookmark.longurl}}</a></td>
         {% if bookmark.comment %}
