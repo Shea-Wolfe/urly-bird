@@ -7,6 +7,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib import messages
 from .forms import BookmarkForm
+from datetime import datetime
+
 # Create your views here.
 
 
@@ -72,16 +74,15 @@ def add_bookmark(request):
     if request.method == 'POST':
         form = BookmarkForm(request.POST)
         if form.is_valid():
-            bookmark = form.save()
-            title = bookmark.title
-            longurl = bookmark.longurl
-            comment = bookmark.comment
-
+            bookmark = form.save(commit=False)
+            bookmark.user = request.user
+            bookmark.generate_short()
+            bookmark.modified = datetime.now()
             bookmark.save()
-            return redirect('userpage')
+            return redirect('recent')
     else:
         form = BookmarkForm()
-    return render(request, 'crisco/userpage.html',
+    return render(request, 'crisco/add_bookmark.html',
                   {'form': form})
 
 
