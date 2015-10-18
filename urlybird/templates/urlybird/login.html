@@ -1,7 +1,13 @@
 {% extends "admin/base_site.html" %}
+{% load bootstrap3 %}
+{% load bootstrap_themes %}
 {% load i18n admin_static %}
-
-{% block extrastyle %}{{ block.super }}<link rel="stylesheet" type="text/css" href="{% static "admin/css/login.css" %}" />
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+{% bootstrap_messages %}
+{% bootstrap_styles theme='superhero' type='css'%}
+{# {% block extrastyle %}{{ block.super }}<link rel="stylesheet" type="text/css" href="{% static "admin/css/login.css" %}" />#}
+{% block extrastyle %}{{ block.super }}<link rel="stylesheet" type="text/css" href="https://bootswatch.com/superhero/bootstrap.css" />
 {{ form.media }}
 {% endblock %}
 
