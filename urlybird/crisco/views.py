@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login
 from django.views.generic import ListView, UpdateView
-from .models import Bookmark
+from .models import Bookmark, Click
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib import messages
@@ -113,3 +113,14 @@ class EditBookmark(UpdateView):
     template_name_suffix = '_update_form'
     field = ['title', 'comment']
     success_url = "{% url 'home_page' request.user.username %}"
+
+def new_click(request, short_url):
+    bookmark = get_object_or_404(Bookmark, shorturl=short_url)
+    try:
+        user = request.user
+    except:
+        click = Click(bookmark=bookmark, timestamp=datetime.now())
+    else:
+        click = Click(bookmark=bookmark, clicker=user, timestamp=datetime.now())
+    click.save()
+    return redirect(bookmark.longurl)
