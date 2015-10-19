@@ -30,7 +30,7 @@ urlpatterns = [
     url(r'^delete/(?P<bookmark_id>\d+)', 'crisco.views.delete_bookmark', name='delete_bookmark'),
     url(r'^update/(?P<bookmark_id>\d+)', 'crisco.views.edit_bookmark', name='edit_bookmark'),
     url(r'^update/form/(?P<pk>\d+)', EditBookmark.as_view(), name='edit_form'),
-    url(r'^click/(?P<short_url>\w+)', 'crisco.views.new_click', name='clickthrough'),
     url(r'^info/(?P<pk>\w+)', BookmarkInfo.as_view(), name='bookmark_info'),
+    url(r'^(?P<short_url>\w+)', 'crisco.views.new_click', name='clickthrough'),
     url(r'^$', 'crisco.views.start'),
 ]
