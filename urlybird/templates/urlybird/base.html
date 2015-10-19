@@ -7,7 +7,7 @@
 <head lang="en">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Crisco URL Shortener</title>
+  <title>Crisko URL Shortener</title>
   {% bootstrap_css %}
  {% bootstrap_javascript %}
  {% bootstrap_messages %}
@@ -27,9 +27,9 @@
     <li><span class="btn btn-default">Signed in as {{user.username}} </span></li>
 
     {% else %}
-      <li><a href="{% url 'login' %}">Login</a></li>
-      <li><a href="{% url 'register_user' %}">Register</a></li>
-      <li><a href="{% url 'recent' %}">Recent</a></li>
+      <li><a href="{% url 'login' %}" class="btn btn-info">Login</a></li>
+      <li><a href="{% url 'register_user' %}" class="btn btn-success">Register</a></li>
+      <li><a href="{% url 'recent' %}" class="btn btn-warning">Recent</a></li>
   {% endif %}
     </ul>
   </nav>
