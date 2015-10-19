@@ -7,8 +7,9 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib import messages
 from .forms import BookmarkForm, EditBookmarkForm
-from datetime import datetime
-
+from datetime import datetime, timedelta
+import matplotlib.pyplot as plt
+from django.db import models
 # Create your views here.
 
 
@@ -138,6 +139,12 @@ class BookmarkInfo(ListView):
     template_name = 'crisco/bookmarkinfo.html'
 
     def get_queryset(self):
+        then = datetime.now() - timedelta(days=30)
         self.bookmark = get_object_or_404(Bookmark, shorturl=self.kwargs['pk'])
-        self.clicks = Click.objects.filter(bookmark=self.bookmark)
-        return self.clicks.order_by('-timestamp')
+        self.clicks = Click.objects.filter(bookmark=self.bookmark, timestamp__gte=then)
+        return self.clicks.order_by('timestamp')
+
+def line_graph(request, short_url):
+    bookmark = get_object_or_404(Bookmark, shorturl=short_url)
+    then = datetime.now() - timedelta(days=30)
+    clicks = bookmark.click_set.filter(timestamp__gte=then)
