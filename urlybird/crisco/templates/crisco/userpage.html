@@ -2,6 +2,10 @@
 {% load bootstrap3 %}
 {% block content %}
 <h1>{{view.user.username}}'s homepage</h1>
+{% if request.user == view.user %}
+<a href="{% url 'bar_chart' request.user.username %}" class="btn btn-warning">Bookmark Monthly Stats!</a>
+<a href="{% url 'all_time' request.user.username %}" class="btn btn-success">Bookmark All Time Stats!</a>
+{% endif %}
 <table class="table table-hover">
   <tr>
     <th>Title</th>

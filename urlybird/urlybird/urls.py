@@ -31,6 +31,8 @@ urlpatterns = [
     url(r'^update/(?P<bookmark_id>\d+)', 'crisco.views.edit_bookmark', name='edit_bookmark'),
     url(r'^info/(?P<pk>\w+)', BookmarkInfo.as_view(), name='bookmark_info'),
     url(r'^graph/(?P<short_url>\w+)', 'crisco.views.pie_chart', name='line_graph'),
+    url(r'^stats/(?P<username>[\w.]+)', 'crisco.views.bar_chart', name='bar_chart'),
+    url(r'^alltime/(?P<username>[\w.]+)', 'crisco.views.all_time', name='all_time'),
     url(r'^(?P<short_url>\w+)$', 'crisco.views.new_click', name='clickthrough'),
     url(r'^$', 'crisco.views.start'),
 ]

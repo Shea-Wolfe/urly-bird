@@ -166,3 +166,37 @@ def pie_chart(request, short_url):
     canvas.print_png(response)
     plt.close(f)
     return response
+
+def bar_chart(request, username):
+    then = datetime.now() - timedelta(days=30)
+    user = get_object_or_404(User, username=username)
+    bookmarks = user.bookmark_set.all()
+    clicks = [bookmark.click_set.filter(timestamp__gte=then).count() for bookmark in bookmarks]
+    bookmarks = [bookmark.title for bookmark in bookmarks]
+    f = plt.figure(figsize=(10,8))
+    plt.gcf().subplots_adjust(bottom=0.25)
+    plt.bar([x for x in range(len(bookmarks))],clicks)
+    plt.title('Clicks by Bookmark This Month')
+    plt.xticks([x for x in range(len(bookmarks))],bookmarks, rotation=60)
+    canvas = FigureCanvasAgg(f)
+    response = HttpResponse(content_type='image/png')
+    canvas.print_png(response)
+    plt.close(f)
+    return response
+
+def all_time(request, username):
+    then = datetime.now() - timedelta(days=30)
+    user = get_object_or_404(User, username=username)
+    bookmarks = user.bookmark_set.all()
+    clicks = [bookmark.click_set.all().count() for bookmark in bookmarks]
+    bookmarks = [bookmark.title for bookmark in bookmarks]
+    f = plt.figure(figsize=(10,8))
+    plt.gcf().subplots_adjust(bottom=0.25)
+    plt.bar([x for x in range(len(bookmarks))],clicks)
+    plt.title('Clicks by Bookmark All Time')
+    plt.xticks([x for x in range(len(bookmarks))],bookmarks, rotation=60)
+    canvas = FigureCanvasAgg(f)
+    response = HttpResponse(content_type='image/png')
+    canvas.print_png(response)
+    plt.close(f)
+    return response

@@ -6,3 +6,4 @@ fake-factory
 django-extensions
 werkzeug
 django-bootstrap-themes
+matplotlib
