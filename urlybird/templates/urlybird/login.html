@@ -47,6 +47,13 @@
 </p>
 {% endif %}
 <p>Welcome!</p>
+<nav class="navbar navbar-default navbar-fixed-top">
+  <ul class="nav nav-pills">
+    <li><a href="{% url 'register_user' %}" class="btn btn-success">Register</a></li>
+    <li><a href="{% url 'recent' %}" class="btn btn-warning">Recent</a></li>
+    <li><span class="btn btn-default">Browsing anonymously</span></li>
+  </ul>
+</nav>
 <form action="{{ app_path }}" method="post" id="login-form">{% csrf_token %}
   <div class="form-row">
     {{ form.username.errors }}
