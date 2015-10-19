@@ -10,6 +10,8 @@ from .forms import BookmarkForm, EditBookmarkForm
 from datetime import datetime, timedelta
 import matplotlib.pyplot as plt
 from django.db import models
+from matplotlib.backends.backend_agg import FigureCanvasAgg
+from django.http import HttpResponse
 # Create your views here.
 
 
@@ -144,7 +146,23 @@ class BookmarkInfo(ListView):
         self.clicks = Click.objects.filter(bookmark=self.bookmark, timestamp__gte=then)
         return self.clicks.order_by('timestamp')
 
-def line_graph(request, short_url):
-    bookmark = get_object_or_404(Bookmark, shorturl=short_url)
+def pie_chart(request, short_url):
     then = datetime.now() - timedelta(days=30)
-    clicks = bookmark.click_set.filter(timestamp__gte=then)
+    bookmark = get_object_or_404(Bookmark, shorturl=short_url)
+    anon_clicks = bookmark.click_set.filter(clicker=None).all().count()
+    total_clicks = bookmark.click_set.all().count()
+    anon_clicks = 100*(anon_clicks/total_clicks)
+    total_clicks = 100-anon_clicks
+    f = plt.figure(1, figsize=(6,6))
+    ax = plt.axes([0.1, 0.1, 0.8, 0.8])
+    labels = 'Anon Clicks', 'User Clicks'
+    fracs = [anon_clicks,total_clicks]
+    explode=(0, 0.05)
+    plt.pie(fracs, explode=explode, labels=labels, autopct='%1.1f%%', shadow=True)
+    plt.title('Usage Data.', bbox={'facecolor':'0.8', 'pad':5})
+
+    canvas = FigureCanvasAgg(f)
+    response = HttpResponse(content_type='image/png')
+    canvas.print_png(response)
+    plt.close(f)
+    return response

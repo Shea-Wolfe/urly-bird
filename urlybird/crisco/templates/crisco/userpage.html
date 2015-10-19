@@ -13,7 +13,11 @@
   <tb>
     {% for bookmark in bookmarks %}
     <tr>
+      {% if request.user == view.user %}
       <td><a href="{% url 'bookmark_info' bookmark.shorturl %}">{{bookmark.title}}</a></td>
+      {% else %}
+      <td>{{bookmark.title}}</td>
+      {% endif %}
         <td><a href="{% url 'clickthrough' bookmark.shorturl %}">{{bookmark.shorturl}}</a></td>
         <td><a href="http://{{bookmark.longurl}}">{{bookmark.longurl}}</a></td>
         {% if bookmark.comment %}

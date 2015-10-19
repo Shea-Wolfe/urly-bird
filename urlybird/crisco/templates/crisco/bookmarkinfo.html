@@ -2,6 +2,7 @@
 {% load bootstrap3 %}
 {% block content %}
 <h1>{{view.bookmark.title}} activity this month</h1>
+<a href="{% url 'line_graph' view.bookmark.shorturl %}" class="btn btn-info">User Usage Graph!</a>
 <table class="table">
   <tr>
     <th>User</th>
