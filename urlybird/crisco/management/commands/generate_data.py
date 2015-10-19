@@ -18,7 +18,7 @@ def generate_bookmarks():
     import random
     fake = Faker()
     count = 1
-    for _ in range(100):
+    for _ in range(300):
         bookmark = Bookmark(title='bookmark{}'.format(count),
                             comment='Comment{}'.format(count),
                             longurl=fake.url(),
@@ -32,10 +32,12 @@ def generate_clicks():
     from faker import Faker
     import random
     fake = Faker()
-    for _ in range(1000):
+    for _ in range(5000):
         click = Click(timestamp=fake.date_time_this_year(),clicker=random.choice([random.choice(User.objects.all()),random.choice(User.objects.all()),None]),bookmark=random.choice(Bookmark.objects.all()))
         click.save()
 
 class Command(BaseCommand):
     def handle(self, *args, **options):
+        generate_users()
+        generate_bookmarks()
         generate_clicks()
