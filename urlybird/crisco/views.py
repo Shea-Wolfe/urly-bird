@@ -127,11 +127,9 @@ def edit_bookmark(request, bookmark_id):
 def new_click(request, short_url):
     bookmark = get_object_or_404(Bookmark, shorturl=short_url)
     try:
-        user = request.user
+        click = Click(bookmark=bookmark, clicker=user, timestamp=datetime.now())
     except:
         click = Click(bookmark=bookmark, timestamp=datetime.now())
-    else:
-        click = Click(bookmark=bookmark, clicker=user, timestamp=datetime.now())
     click.save()
     return redirect(bookmark.longurl)
 
@@ -146,12 +144,17 @@ class BookmarkInfo(ListView):
         self.clicks = Click.objects.filter(bookmark=self.bookmark, timestamp__gte=then)
         return self.clicks.order_by('timestamp')
 
+@login_required
 def pie_chart(request, short_url):
     then = datetime.now() - timedelta(days=30)
     bookmark = get_object_or_404(Bookmark, shorturl=short_url)
     anon_clicks = bookmark.click_set.filter(clicker=None).all().count()
     total_clicks = bookmark.click_set.all().count()
-    anon_clicks = 100*(anon_clicks/total_clicks)
+    try:
+        anon_clicks = 100*(anon_clicks/total_clicks)
+    except:
+        messages.add_message(request, messages.WARNING, "No Clicks!")
+        return redirect()
     total_clicks = 100-anon_clicks
     f = plt.figure(1, figsize=(6,6))
     ax = plt.axes([0.1, 0.1, 0.8, 0.8])
@@ -167,36 +170,46 @@ def pie_chart(request, short_url):
     plt.close(f)
     return response
 
+@login_required
 def bar_chart(request, username):
-    then = datetime.now() - timedelta(days=30)
-    user = get_object_or_404(User, username=username)
-    bookmarks = user.bookmark_set.all()
-    clicks = [bookmark.click_set.filter(timestamp__gte=then).count() for bookmark in bookmarks]
-    bookmarks = [bookmark.title for bookmark in bookmarks]
-    f = plt.figure(figsize=(10,8))
-    plt.gcf().subplots_adjust(bottom=0.25)
-    plt.bar([x for x in range(len(bookmarks))],clicks)
-    plt.title('Clicks by Bookmark This Month')
-    plt.xticks([x for x in range(len(bookmarks))],bookmarks, rotation=60)
-    canvas = FigureCanvasAgg(f)
-    response = HttpResponse(content_type='image/png')
-    canvas.print_png(response)
-    plt.close(f)
-    return response
+    if request.user.username == username:
+        then = datetime.now() - timedelta(days=30)
+        user = get_object_or_404(User, username=username)
+        bookmarks = user.bookmark_set.all()
+        clicks = [bookmark.click_set.filter(timestamp__gte=then).count() for bookmark in bookmarks]
+        bookmarks = [bookmark.title for bookmark in bookmarks]
+        f = plt.figure(figsize=(10,8))
+        plt.gcf().subplots_adjust(bottom=0.25)
+        plt.bar([x for x in range(len(bookmarks))],clicks)
+        plt.title('Clicks by Bookmark This Month')
+        plt.xticks([x for x in range(len(bookmarks))],bookmarks, rotation=60)
+        canvas = FigureCanvasAgg(f)
+        response = HttpResponse(content_type='image/png')
+        canvas.print_png(response)
+        plt.close(f)
+        return response
+    else:
+        messages.add_message(request, messages.ERROR, "Creator Only!")
+        return redirect('recent')
 
+@login_required
 def all_time(request, username):
-    then = datetime.now() - timedelta(days=30)
-    user = get_object_or_404(User, username=username)
-    bookmarks = user.bookmark_set.all()
-    clicks = [bookmark.click_set.all().count() for bookmark in bookmarks]
-    bookmarks = [bookmark.title for bookmark in bookmarks]
-    f = plt.figure(figsize=(10,8))
-    plt.gcf().subplots_adjust(bottom=0.25)
-    plt.bar([x for x in range(len(bookmarks))],clicks)
-    plt.title('Clicks by Bookmark All Time')
-    plt.xticks([x for x in range(len(bookmarks))],bookmarks, rotation=60)
-    canvas = FigureCanvasAgg(f)
-    response = HttpResponse(content_type='image/png')
-    canvas.print_png(response)
-    plt.close(f)
-    return response
+    if request.user.username == username:
+        then = datetime.now() - timedelta(days=30)
+        user = get_object_or_404(User, username=username)
+        bookmarks = user.bookmark_set.all()
+        clicks = [bookmark.click_set.all().count() for bookmark in bookmarks]
+        bookmarks = [bookmark.title for bookmark in bookmarks]
+        f = plt.figure(figsize=(10,8))
+        plt.gcf().subplots_adjust(bottom=0.25)
+        plt.bar([x for x in range(len(bookmarks))],clicks)
+        plt.title('Clicks by Bookmark All Time')
+        plt.xticks([x for x in range(len(bookmarks))],bookmarks, rotation=60)
+        canvas = FigureCanvasAgg(f)
+        response = HttpResponse(content_type='image/png')
+        canvas.print_png(response)
+        plt.close(f)
+        return response
+    else:
+        messages.add_message(request, messages.ERROR, "Creator Only!")
+        return redirect('recent')
