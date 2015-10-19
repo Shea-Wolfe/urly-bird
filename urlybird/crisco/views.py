@@ -8,6 +8,8 @@ from django.contrib.auth.models import User
 from django.contrib import messages
 from .forms import BookmarkForm
 from datetime import datetime
+import matplotlib.pyplot as plt
+from django.db.models import Count
 
 # Create your views here.
 
@@ -101,7 +103,7 @@ def delete_bookmark(request, bookmark_id):
 @login_required
 def edit_bookmark(request, bookmark_id):
     if Bookmark.objects.get(pk=bookmark_id).user == request.user:
-        redirect('edit_form', pk=bookmark_id)
+        return redirect('edit_form', pk=bookmark_id)
     else:
         messages.add_message(request, messages.WARNING,
                              "You can't edit what is not yours!")
@@ -111,8 +113,8 @@ def edit_bookmark(request, bookmark_id):
 class EditBookmark(UpdateView):
     model = Bookmark
     template_name_suffix = '_update_form'
-    field = ['title', 'comment']
-    success_url = "{% url 'home_page' request.user.username %}"
+    fields = ['title', 'comment']
+    success_url = "http://localhost:8000/recent"
 
 def new_click(request, short_url):
     bookmark = get_object_or_404(Bookmark, shorturl=short_url)
