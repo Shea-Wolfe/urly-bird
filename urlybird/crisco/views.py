@@ -153,8 +153,8 @@ def pie_chart(request, short_url):
     try:
         anon_clicks = 100*(anon_clicks/total_clicks)
     except:
-        messages.add_message(request, messages.WARNING, "No Clicks!")
-        return redirect()
+        messages.add_message(request, messages.ERROR, "No Clicks!")
+        return redirect('home_page', pk=request.user.username)
     total_clicks = 100-anon_clicks
     f = plt.figure(1, figsize=(6,6))
     ax = plt.axes([0.1, 0.1, 0.8, 0.8])
