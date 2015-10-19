@@ -11,3 +11,8 @@ class BookmarkForm(ModelForm):
     class Meta:
         model = Bookmark
         fields = ('title', 'longurl', 'comment')
+
+class EditBookmarkForm(ModelForm):
+    class Meta:
+        model = Bookmark
+        fields = ('title','comment')

@@ -1,15 +1,13 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login
-from django.views.generic import ListView, UpdateView
+from django.views.generic import ListView
 from .models import Bookmark, Click
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib import messages
-from .forms import BookmarkForm
+from .forms import BookmarkForm, EditBookmarkForm
 from datetime import datetime
-import matplotlib.pyplot as plt
-from django.db.models import Count
 
 # Create your views here.
 
@@ -81,7 +79,7 @@ def add_bookmark(request):
             bookmark.generate_short()
             bookmark.modified = datetime.now()
             bookmark.save()
-            return redirect('recent')
+            return redirect('home_page', pk=request.user.username)
     else:
         form = BookmarkForm()
     return render(request, 'crisco/add_bookmark.html',
@@ -103,18 +101,25 @@ def delete_bookmark(request, bookmark_id):
 @login_required
 def edit_bookmark(request, bookmark_id):
     if Bookmark.objects.get(pk=bookmark_id).user == request.user:
+        if request.method == 'POST':
+            form = EditBookmarkForm(request.POST)
+            if form.is_valid():
+                bookmark = Bookmark.objects.get(pk=bookmark_id)
+                bookmark.title = request.POST['title']
+                bookmark.comment = request.POST['comment']
+                bookmark.save()
+                return redirect('home_page', pk=request.user.username)
+        else:
+            form = EditBookmarkForm()
+        return render(request, 'crisco/edit_bookmark.html', {'form':form,'bookmark':bookmark_id})
+
         return redirect('edit_form', pk=bookmark_id)
+
     else:
         messages.add_message(request, messages.WARNING,
                              "You can't edit what is not yours!")
         return redirect('recent')
 
-
-class EditBookmark(UpdateView):
-    model = Bookmark
-    template_name_suffix = '_update_form'
-    fields = ['title', 'comment']
-    success_url = "http://localhost:8000/recent"
 
 def new_click(request, short_url):
     bookmark = get_object_or_404(Bookmark, shorturl=short_url)
